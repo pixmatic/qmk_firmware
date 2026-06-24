@@ -68,7 +68,7 @@ VIAL_ENABLE = no                    # Deshabilitar compatibilidad con configurad
 # ------------------------------------------------------------------------------
 BACKLIGHT_ENABLE = no               # Deshabilitar retroiluminación monocromática
 RGBLIGHT_ENABLE = no                # Deshabilitar tiras de LED RGB (Underglow)
-RGB_MATRIX_ENABLE = no              # Habilitar matrices de LED RGB direccionables por tecla
+RGB_MATRIX_ENABLE = yes             # Habilitar matrices de LED RGB direccionables por tecla
 LED_MATRIX_ENABLE = no              # Deshabilitar matrices de LED monocromáticas
 SLEEP_LED_ENABLE = no               # Deshabilitar LED de estado en modo suspensión
 ENCODER_ENABLE = no                 # Deshabilitar soporte para encoders rotativos
