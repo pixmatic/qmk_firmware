@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef RGB_MATRIX_ENABLE
+
 // ==============================================================================
 // CONFIGURACIÓN DE LA MATRIZ RGB POR DEFECTO PARA EL USUARIO 'pixmatic'
 // ==============================================================================
@@ -26,3 +28,15 @@
 #define RGB_O QK_RGB_MATRIX_TOGGLE     // Apagar/Encender matriz
 #define RGB_U QK_RGB_MATRIX_VALUE_UP   // Subir brillo
 #define RGB_D QK_RGB_MATRIX_VALUE_DOWN // Bajar brillo
+
+#else
+
+// ==============================================================================
+// ALIAS DE CAÍDA (FALLBACK) CUANDO LA MATRIZ RGB ESTÁ DESHABILITADA
+// ==============================================================================
+
+#define RGB_O KC_NO
+#define RGB_U KC_NO
+#define RGB_D KC_NO
+
+#endif
