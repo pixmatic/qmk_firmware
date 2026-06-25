@@ -115,7 +115,7 @@ SPLIT_KEYBOARD = no                 # Deshabilitar soporte para teclados dividid
 # 7. Otros Ajustes y Protocolos
 # ------------------------------------------------------------------------------
 ADHLNS_ENABLE = no                  # Deshabilitar optimizaciones específicas ADHLNS
-BOOTMAGIC_ENABLE = yes              # Habilitamos soporte completo de Bootmagic mientras duren las pruebas
+BOOTMAGIC_ENABLE = no               # Deshabilitamos soporte completo de Bootmagic
 DEFERRED_EXEC_ENABLE = no           # Deshabilitar ejecución diferida de funciones (timers)
 CRC_ENABLE = no                     # Deshabilitar cálculo CRC de hardware/software no crítico
 EXTRAKEY_ENABLE = no                # Habilitar teclas multimedia, control de volumen y encendido
