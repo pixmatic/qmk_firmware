@@ -6,7 +6,7 @@
 # Habilita lo que necesites de forma explícita conforme lo requieras.
 
 # Incluir archivos de código fuente del espacio de usuario
-SRC += pixmatic.c
+SRC += pixmatic.c os_engine.c
 
 # ------------------------------------------------------------------------------
 # 1. Optimización y Depuración
@@ -105,7 +105,7 @@ VIRTSER_ENABLE = no                 # Deshabilitar puerto serie virtual USB
 QUANTUM_PAINTER_ENABLE = no         # Deshabilitar motor gráfico Quantum Painter (pantallas color/SPI)
 DIGITIZER_ENABLE = no               # Deshabilitar soporte para digitalizador (lápiz/pantalla táctil)
 PROGRAMMABLE_BUTTON_ENABLE = no     # Deshabilitar botones programables de gamepad/ratón
-OS_DETECTION_ENABLE = no            # Habilitar detección automática del sistema operativo del host
+OS_DETECTION_ENABLE = yes            # Habilitar detección automática del sistema operativo del host
 SEQUENCER_ENABLE = no               # Deshabilitar secuenciador musical paso a paso
 RAW_ENABLE = no                     # Deshabilitar transferencia de datos HID crudos (Raw HID)
 IOS_DEVICE_ENABLE = no              # Deshabilitar modo de bajo consumo para compatibilidad con iOS
