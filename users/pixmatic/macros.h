@@ -8,11 +8,7 @@
 // Calculamos el inicio del rango seguro de forma autónoma.
 // Si el OS Engine está habilitado, reserva 6 keycodes (OS_L1 a OS_R3) después de SAFE_RANGE.
 // ==============================================================================
-#ifdef OS_DETECTION_ENABLE
-#   define MACROS_START_RANGE (SAFE_RANGE + 6)
-#else
-#   define MACROS_START_RANGE SAFE_RANGE
-#endif
+#define MACROS_START_RANGE (SAFE_RANGE + 6)
 
 // ==============================================================================
 // 1. MACROS DE TIPO STRING (Envío de cadenas de texto)

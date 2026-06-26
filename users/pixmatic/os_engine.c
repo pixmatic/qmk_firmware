@@ -1,9 +1,6 @@
 #include "os_engine.h"
 
-// Toda la lógica de ejecución del archivo se compila condicionalmente.
-// Si OS_DETECTION_ENABLE = no en rules.mk, este archivo se compilará vacío (0 bytes de impacto).
-#ifdef OS_DETECTION_ENABLE
-#    include "os_detection.h"
+#include "os_detection.h"
 
 // Historial de teclas físicas actualmente pulsadas.
 // Almacena qué código físico simulamos al presionar una tecla virtual específica.
@@ -65,4 +62,3 @@ bool process_os_engine(uint16_t keycode, keyrecord_t *record) {
     }
     return false; // No es una tecla administrada por os_engine, continuar flujo normal
 }
-#endif
