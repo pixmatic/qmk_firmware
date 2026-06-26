@@ -18,3 +18,5 @@ enum {
 // Si Tap Dance está desactivado, TD_SHIF se comporta como un Shift normal
 #    define TD_SHIF KC_LSFT
 #endif
+
+#include "macros.h"

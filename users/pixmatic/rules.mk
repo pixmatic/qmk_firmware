@@ -6,7 +6,7 @@
 # Habilita lo que necesites de forma explícita conforme lo requieras.
 
 # Incluir archivos de código fuente del espacio de usuario
-SRC += pixmatic.c os_engine.c
+SRC += pixmatic.c os_engine.c macros.c
 
 # ------------------------------------------------------------------------------
 # 1. Optimización y Depuración
@@ -24,7 +24,7 @@ AUTOLOG_ENABLE = no                 # Deshabilitar registro automático de depur
 # ------------------------------------------------------------------------------
 GRAVE_ESC_ENABLE = no               # Deshabilitar comportamiento Grave Escape (Esc/` compuestas)
 MAGIC_ENABLE = no                   # Deshabilitar teclas mágicas (configuración al vuelo del hardware)
-SEND_STRING_ENABLE = no             # Deshabilitar envío de secuencias de texto macro
+SEND_STRING_ENABLE = yes            # Habilitar envío de secuencias de texto macro
 SPACE_CADET_ENABLE = no             # Deshabilitar Space Cadet (modificadores que actúan como paréntesis al tapear)
 VELOCIKEY_ENABLE = no               # Deshabilitar ajuste dinámico de velocidad de efectos por pulsación
 SWAP_HANDS_ENABLE = no              # Deshabilitar intercambio de manos (teclados de una sola mano)
