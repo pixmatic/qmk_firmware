@@ -6,7 +6,7 @@
 # Habilita lo que necesites de forma explícita conforme lo requieras.
 
 # Incluir archivos de código fuente del espacio de usuario
-SRC += pixmatic.c os_engine.c macros.c virg.c rgb_config.c
+SRC += pixmatic.c os_engine.c macros.c virg.c rgb_config.c speed_key.c
 
 # ------------------------------------------------------------------------------
 # 1. Optimización y Depuración
@@ -116,7 +116,7 @@ SPLIT_KEYBOARD = no                 # Deshabilitar soporte para teclados dividid
 # ------------------------------------------------------------------------------
 ADHLNS_ENABLE = no                  # Deshabilitar optimizaciones específicas ADHLNS
 BOOTMAGIC_ENABLE = no               # Deshabilitamos soporte completo de Bootmagic
-DEFERRED_EXEC_ENABLE = no           # Deshabilitar ejecución diferida de funciones (timers)
+DEFERRED_EXEC_ENABLE = yes           # Deshabilitar ejecución diferida de funciones (timers)
 CRC_ENABLE = no                     # Deshabilitar cálculo CRC de hardware/software no crítico
 EXTRAKEY_ENABLE = no                # Habilitar teclas multimedia, control de volumen y encendido
 MOUSEKEY_ENABLE = no                # Habilitar control de cursor de ratón mediante teclado

@@ -27,3 +27,4 @@ enum {
 #endif
 
 #include "macros.h"
+#include "speed_key.h"

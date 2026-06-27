@@ -25,5 +25,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (process_macros(keycode, record)) {
         return false;
     }
+    if (process_speed_key(keycode, record)) {
+        return false;
+    }
     return true;
 }
