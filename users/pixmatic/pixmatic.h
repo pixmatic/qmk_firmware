@@ -9,6 +9,10 @@ enum {
     TD_C13_LAYER
 };
 
+// Redefinimos _______ a KC_NO
+#undef _______
+#define _______ KC_NO
+
 // Alias para la tecla de Tap Dance Shift
 #define TD_SHIF TD(TD_LSFT_CAPS)
 
