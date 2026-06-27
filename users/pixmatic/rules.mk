@@ -6,7 +6,7 @@
 # Habilita lo que necesites de forma explícita conforme lo requieras.
 
 # Incluir archivos de código fuente del espacio de usuario
-SRC += pixmatic.c os_engine.c macros.c virg.c
+SRC += pixmatic.c os_engine.c macros.c virg.c rgb_config.c
 
 # ------------------------------------------------------------------------------
 # 1. Optimización y Depuración
