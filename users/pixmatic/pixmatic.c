@@ -3,6 +3,7 @@
 #include "quantum.h"
 #include "os_engine.h"
 #include "pixmatic.h"
+#include "virg.h"
 
 // Personalizar el Tapping Term por tecla
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
@@ -15,6 +16,9 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_dead_tilde(keycode, record)) {
+        return false;
+    }
     if (process_os_engine(keycode, record)) {
         return false;
     }
