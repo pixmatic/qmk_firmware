@@ -5,6 +5,20 @@ static deferred_token speed_key_token = INVALID_DEFERRED_TOKEN;
 static bool speed_key_active = false;
 static uint16_t speed_key_code = KC_NO;
 
+// Mapeo de IDs de Speed Key a sus keycodes reales correspondientes
+static const uint16_t speed_key_map[SPEED_KEYS_COUNT] = {
+    [SK_ID_ENT]   = KC_ENT,
+    [SK_ID_BSPC]  = KC_BSPC,
+    [SK_ID_DEL]   = KC_DEL,
+    [SK_ID_UP]    = KC_UP,
+    [SK_ID_DOWN]  = KC_DOWN,
+    [SK_ID_LEFT]  = KC_LEFT,
+    [SK_ID_RGHT]  = KC_RGHT,
+    [SK_ID_PGUP]  = KC_PGUP,
+    [SK_ID_PGDN]  = KC_PGDN,
+    [SK_ID_PAST]  = LCTL(KC_V), // Mapea a CTRL+V
+};
+
 /**
  * @brief Función callback que se ejecuta de forma diferida en segundo plano
  * para simular la pulsación rápida y periódica de la tecla activa.
@@ -27,7 +41,11 @@ uint32_t speed_key_callback(uint32_t trigger_time, void *cb_arg) {
  */
 bool process_speed_key(uint16_t keycode, keyrecord_t *record) {
     if (keycode >= RAPID_FIRE_START && keycode <= RAPID_FIRE_END) {
-        uint16_t target_key = keycode - RAPID_FIRE_START;
+        uint8_t id = keycode - RAPID_FIRE_START;
+        if (id >= SPEED_KEYS_COUNT) {
+            return false;
+        }
+        uint16_t target_key = speed_key_map[id];
 
         if (record->event.pressed) {
             // Guardamos el código de tecla a repetir y activamos la ráfaga
