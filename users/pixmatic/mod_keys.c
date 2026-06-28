@@ -59,8 +59,58 @@ void dance_c13_reset(tap_dance_state_t *state, void *user_data) {
 
 // Definición de las acciones de Tap Dance del espacio de usuario
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_LSFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
-    [TD_RSFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_RSFT, KC_CAPS),
     [TD_C24_LAYER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_c24_finished, dance_c24_reset),
     [TD_C13_LAYER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_c13_finished, dance_c13_reset)
 };
+
+// Variables de estado para el comportamiento personalizado de Shift/Caps Lock sin retardo
+static uint8_t shift_press_count = 0;
+static bool shift_interrupted = false;
+static uint32_t shift_press_time = 0;
+static uint32_t last_shift_release_time = 0;
+static bool shift_is_double_tap = false;
+
+bool process_shift_caps(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == SH_CAPS) {
+        if (record->event.pressed) {
+            shift_press_count++;
+            if (shift_press_count == 1) {
+                shift_interrupted = false;
+                shift_press_time = timer_read32();
+                if (last_shift_release_time != 0 && timer_elapsed32(last_shift_release_time) < 500) {
+                    tap_code(KC_CAPS);
+                    shift_is_double_tap = true;
+                    last_shift_release_time = 0;
+                } else {
+                    shift_is_double_tap = false;
+                    register_code(KC_LSFT);
+                }
+            }
+        } else {
+            if (shift_press_count > 0) {
+                shift_press_count--;
+                if (shift_press_count == 0) {
+                    if (shift_is_double_tap) {
+                        shift_is_double_tap = false;
+                    } else {
+                        unregister_code(KC_LSFT);
+                        if (!shift_interrupted && timer_elapsed32(shift_press_time) < 500) {
+                            last_shift_release_time = timer_read32();
+                        } else {
+                            last_shift_release_time = 0;
+                        }
+                    }
+                }
+            }
+        }
+        return false; // Interceptado, no procesar más en QMK
+    }
+
+    // Si se presiona cualquier otra tecla mientras Shift está activo, se interrumpe el tap de Shift
+    if (record->event.pressed && shift_press_count > 0) {
+        shift_interrupted = true;
+    }
+
+    return true; // Continuar procesamiento normal
+}
+

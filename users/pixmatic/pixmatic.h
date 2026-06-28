@@ -1,11 +1,12 @@
 #pragma once
 #include "quantum.h"
 
+#include "macros.h"
+#include "speed_key.h"
+
 // Mínimo común para Tap Dance
 enum {
-    TD_LSFT_CAPS = 0,
-    TD_RSFT_CAPS,
-    TD_C24_LAYER,
+    TD_C24_LAYER = 0,
     TD_C13_LAYER
 };
 
@@ -13,8 +14,14 @@ enum {
 #undef _______
 #define _______ KC_NO
 
-// Alias para la tecla de Tap Dance Shift
-#define TD_SHIF TD(TD_LSFT_CAPS)
+// Rango de keycodes personalizados de pixmatic
+enum pixmatic_keycodes {
+    SH_CAPS = SPEED_KEY_SAFE_RANGE,
+    PIXMATIC_SAFE_RANGE
+};
+
+// Alias para la tecla de Shift especial
+#define TD_SHIF SH_CAPS
 
 // Alias para la tecla C_24 (Hold -> Layer 2, Tap -> Toggle Layer 4)
 #define C_24 TD(TD_C24_LAYER)
@@ -22,9 +29,10 @@ enum {
 // Alias para la tecla C_13 (Hold -> Layer 1, Tap -> Toggle Layer 3)
 #define C_13 TD(TD_C13_LAYER)
 
+// Funciones del gestor de modificadores
+bool process_shift_caps(uint16_t keycode, keyrecord_t *record);
+
 #if !defined(PIXMATIC_C)
 #    include "mod_keys.c"
 #endif
 
-#include "macros.h"
-#include "speed_key.h"
