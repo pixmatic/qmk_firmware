@@ -14,33 +14,21 @@
 // 1. MACROS DE TIPO STRING (Envío de cadenas de texto)
 // ==============================================================================
 // Para no incluir strings privados en el repositorio, las variables
-// reales de texto se definen en el fichero local "macros_content.h".
+// reales de texto se definen en el fichero local "macros_content.h"
+// usando la sintaxis de lista X-Macros.
+//
 // Ejemplo de estructura de "macros_content.h":
 //
 //     #pragma once
-//     #define VAL_M_MAIL "user@example.com"
-//     #define VAL_M_NAME "JOHN"
-//     #define VAL_M_SURN "DOE"
-//     #define VAL_M_ADDR "123 Street"
-//     #define VAL_M_GITS "git status\n"
-//     #define VAL_M_GITD "git diff\n"
-//     #define VAL_M_GITA "git add .\n"
-//     #define VAL_M_GITC "git commit -m \"\""
-//     #define VAL_M_COMP "qmk compile\n"
+//     #define MACROS_LIST X(M_MAIL, "user@example.com") X(M_NAME, "JOHN")
 //
-#include "macros_content.h"
+#if __has_include("macros_content.h")
+#    include "macros_content.h"
+#else
+#    define MACROS_LIST
+#    error "Falta el fichero 'users/pixmatic/macros_content.h' (ver macros.h para ejemplo de estructura)"
+#endif
 
-
-#define STRING_LIST \
-    X(M_MAIL, VAL_M_MAIL) \
-    X(M_NAME, VAL_M_NAME) \
-    X(M_SURN, VAL_M_SURN) \
-    X(M_ADDR, VAL_M_ADDR) \
-    X(M_GITS, VAL_M_GITS) \
-    X(M_GITD, VAL_M_GITD) \
-    X(M_GITA, VAL_M_GITA) \
-    X(M_GITC, VAL_M_GITC) \
-    X(M_COMP, VAL_M_COMP)
 
 // ==============================================================================
 // 2. GENERACIÓN AUTOMÁTICA DE KEYCODES
@@ -48,9 +36,9 @@
 enum custom_macro_keycodes {
     MACRO_START_RANGE = MACROS_START_RANGE - 1,
 
-    // Expandimos las macros de tipo string
+    // Expandimos las macros
 #define X(name, string) name,
-    STRING_LIST
+    MACROS_LIST
 #undef X
 
     // (Otros tipos de listas de macros se expandirán aquí en el futuro)

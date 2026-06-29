@@ -48,7 +48,7 @@ bool process_macros(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         // --- Procesamiento de macros de tipo String ---
         // Usamos el patrón X-Macro para expandir automáticamente todas las macros
-        // definidas en la tabla STRING_LIST de macros.h. Esto evita repetir
+        // definidas en la tabla MACROS_LIST de macros_content.h. Esto evita repetir
         // bloques "case" idénticos y facilita el mantenimiento.
 #define X(name, string) \
         case name: \
@@ -57,7 +57,7 @@ bool process_macros(uint16_t keycode, keyrecord_t *record) {
                 send_progmem_string_with_caps_check(PSTR(string)); \
             } \
             return true;
-        STRING_LIST
+        MACROS_LIST
 #undef X
 
         // --- Procesamiento de otros tipos de macros en el futuro ---
