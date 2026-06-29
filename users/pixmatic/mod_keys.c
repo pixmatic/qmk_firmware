@@ -63,6 +63,9 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_C13_LAYER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_c13_finished, dance_c13_reset)
 };
 
+#define SH_CAPS_MIN_TAP_DELAY 80  // Mínimo de milisegundos entre pulsaciones para considerarlo un doble toque intencionado
+#define SH_CAPS_MAX_TAP_DELAY 500 // Máximo de milisegundos para considerarlo un toque rápido (tap)
+
 // Variables de estado para el comportamiento personalizado de Shift/Caps Lock sin retardo
 static uint8_t shift_press_count = 0;
 static bool shift_interrupted = false;
@@ -77,7 +80,8 @@ bool process_shift_caps(uint16_t keycode, keyrecord_t *record) {
             if (shift_press_count == 1) {
                 shift_interrupted = false;
                 shift_press_time = timer_read32();
-                if (last_shift_release_time != 0 && timer_elapsed32(last_shift_release_time) < 500) {
+                uint32_t elapsed = timer_elapsed32(last_shift_release_time);
+                if (last_shift_release_time != 0 && elapsed < SH_CAPS_MAX_TAP_DELAY && elapsed >= SH_CAPS_MIN_TAP_DELAY) {
                     tap_code(KC_CAPS);
                     shift_is_double_tap = true;
                     last_shift_release_time = 0;
@@ -94,7 +98,7 @@ bool process_shift_caps(uint16_t keycode, keyrecord_t *record) {
                         shift_is_double_tap = false;
                     } else {
                         unregister_code(KC_LSFT);
-                        if (!shift_interrupted && timer_elapsed32(shift_press_time) < 500) {
+                        if (!shift_interrupted && timer_elapsed32(shift_press_time) < SH_CAPS_MAX_TAP_DELAY) {
                             last_shift_release_time = timer_read32();
                         } else {
                             last_shift_release_time = 0;
