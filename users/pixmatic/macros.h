@@ -3,6 +3,14 @@
 #include "quantum.h"
 
 // ==============================================================================
+// ALIAS DE EDICIÓN RÁPIDA (Ctrl+Z, Ctrl+X, Ctrl+C, Ctrl+V)
+// ==============================================================================
+#define UNDO  LCTL(KC_Z)
+#define CUT   LCTL(KC_X)
+#define COPY  LCTL(KC_C)
+#define PASTE LCTL(KC_V)
+
+// ==============================================================================
 // GESTIÓN DE RANGOS DE KEYCODES PARA LAS MACROS
 // ==============================================================================
 // Calculamos el inicio del rango seguro de forma autónoma.
