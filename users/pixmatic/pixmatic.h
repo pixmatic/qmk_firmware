@@ -16,12 +16,8 @@ enum {
 
 // Rango de keycodes personalizados de pixmatic
 enum pixmatic_keycodes {
-    SH_CAPS = SPEED_KEY_SAFE_RANGE,
-    PIXMATIC_SAFE_RANGE
+    PIXMATIC_SAFE_RANGE = SPEED_KEY_SAFE_RANGE
 };
-
-// Alias para la tecla de Shift especial
-#define TD_SHIF SH_CAPS
 
 // Alias para la tecla C_24 (Hold -> Layer 2, Tap -> Toggle Layer 4)
 #define C_24 TD(TD_C24_LAYER)

@@ -63,58 +63,63 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_C13_LAYER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_c13_finished, dance_c13_reset)
 };
 
-#define SH_CAPS_MIN_TAP_DELAY 80  // Mínimo de milisegundos entre pulsaciones para considerarlo un doble toque intencionado
-#define SH_CAPS_MAX_TAP_DELAY 500 // Máximo de milisegundos para considerarlo un toque rápido (tap)
-
-// Variables de estado para el comportamiento personalizado de Shift/Caps Lock sin retardo
-static uint8_t shift_press_count = 0;
-static bool shift_interrupted = false;
-static uint32_t shift_press_time = 0;
-static uint32_t last_shift_release_time = 0;
-static bool shift_is_double_tap = false;
+// Estado físico y lógico de los Shift para control de Caps Lock por doble Shift pulsado
+static bool lsft_pressed = false;
+static bool rsft_pressed = false;
+static bool lsft_registered = false;
+static bool rsft_registered = false;
 
 bool process_shift_caps(uint16_t keycode, keyrecord_t *record) {
-    if (keycode == SH_CAPS) {
+    if (keycode == KC_LSFT) {
         if (record->event.pressed) {
-            shift_press_count++;
-            if (shift_press_count == 1) {
-                shift_interrupted = false;
-                shift_press_time = timer_read32();
-                uint32_t elapsed = timer_elapsed32(last_shift_release_time);
-                if (last_shift_release_time != 0 && elapsed < SH_CAPS_MAX_TAP_DELAY && elapsed >= SH_CAPS_MIN_TAP_DELAY) {
-                    tap_code(KC_CAPS);
-                    shift_is_double_tap = true;
-                    last_shift_release_time = 0;
-                } else {
-                    shift_is_double_tap = false;
-                    register_code(KC_LSFT);
+            lsft_pressed = true;
+            if (rsft_pressed) {
+                if (rsft_registered) {
+                    unregister_code(KC_RSFT);
+                    rsft_registered = false;
                 }
+                tap_code(KC_CAPS);
+                lsft_registered = false;
+                return false;
+            } else {
+                lsft_registered = true;
+                return true;
             }
         } else {
-            if (shift_press_count > 0) {
-                shift_press_count--;
-                if (shift_press_count == 0) {
-                    if (shift_is_double_tap) {
-                        shift_is_double_tap = false;
-                    } else {
-                        unregister_code(KC_LSFT);
-                        if (!shift_interrupted && timer_elapsed32(shift_press_time) < SH_CAPS_MAX_TAP_DELAY) {
-                            last_shift_release_time = timer_read32();
-                        } else {
-                            last_shift_release_time = 0;
-                        }
-                    }
-                }
+            lsft_pressed = false;
+            if (lsft_registered) {
+                lsft_registered = false;
+                return true;
+            } else {
+                return false;
             }
         }
-        return false; // Interceptado, no procesar más en QMK
+    } else if (keycode == KC_RSFT) {
+        if (record->event.pressed) {
+            rsft_pressed = true;
+            if (lsft_pressed) {
+                if (lsft_registered) {
+                    unregister_code(KC_LSFT);
+                    lsft_registered = false;
+                }
+                tap_code(KC_CAPS);
+                rsft_registered = false;
+                return false;
+            } else {
+                rsft_registered = true;
+                return true;
+            }
+        } else {
+            rsft_pressed = false;
+            if (rsft_registered) {
+                rsft_registered = false;
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
-    // Si se presiona cualquier otra tecla mientras Shift está activo, se interrumpe el tap de Shift
-    if (record->event.pressed && shift_press_count > 0) {
-        shift_interrupted = true;
-    }
-
-    return true; // Continuar procesamiento normal
+    return true;
 }
 
