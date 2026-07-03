@@ -17,6 +17,8 @@ static const uint16_t speed_key_map[SPEED_KEYS_COUNT] = {
     [SK_ID_PGUP]  = KC_PGUP,
     [SK_ID_PGDN]  = KC_PGDN,
     [SK_ID_PAST]  = LCTL(KC_V), // Mapea a CTRL+V
+    [SK_ID_COUS]  = COUNT_S,    // Mapea a macro COUNT_S
+    [SK_ID_COUE]  = COUNT_E,    // Mapea a macro COUNT_E
 };
 
 /**

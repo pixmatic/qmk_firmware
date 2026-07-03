@@ -1,4 +1,5 @@
 #include "macros.h"
+#include "contador.h"
 // Se incluye el mapa de traducción español para que SEND_STRING traduzca
 // correctamente los caracteres como la '@' usando la distribución de teclado de España.
 #include "sendstring_spanish.h"
@@ -61,6 +62,19 @@ bool process_macros(uint16_t keycode, keyrecord_t *record) {
 #undef X
 
         // --- Procesamiento de otros tipos de macros en el futuro ---
+        case COUNT_S:
+            if (record->event.pressed) {
+                contador_incrementar_y_enviar();
+                tap_code(KC_SPC);
+            }
+            return true;
+
+        case COUNT_E:
+            if (record->event.pressed) {
+                contador_incrementar_y_enviar();
+                tap_code(KC_ENT);
+            }
+            return true;
 
         default:
             return false;

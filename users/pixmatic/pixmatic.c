@@ -26,5 +26,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (process_speed_key(keycode, record)) {
         return false;
     }
+    if (process_contador(keycode, record)) {
+        return false;
+    }
     return true;
+}
+
+void tap_code16_delay(uint16_t code, uint16_t delay) {
+    if (code >= SAFE_RANGE) {
+        keyrecord_t record;
+        record.event.pressed = true;
+        record.event.time = timer_read();
+        process_record_user(code, &record);
+        
+        if (delay > 0) {
+            wait_ms(delay);
+        }
+        
+        record.event.pressed = false;
+        record.event.time = timer_read();
+        process_record_user(code, &record);
+    } else {
+        register_code16(code);
+        if (delay > 0) {
+            wait_ms(delay);
+        }
+        unregister_code16(code);
+    }
 }

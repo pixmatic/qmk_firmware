@@ -3,6 +3,7 @@
 
 #include "macros.h"
 #include "speed_key.h"
+#include "contador.h"
 
 // Mínimo común para Tap Dance
 enum {
@@ -16,7 +17,7 @@ enum {
 
 // Rango de keycodes personalizados de pixmatic
 enum pixmatic_keycodes {
-    PIXMATIC_SAFE_RANGE = SPEED_KEY_SAFE_RANGE
+    PIXMATIC_SAFE_RANGE = CONTADOR_SAFE_RANGE
 };
 
 // Alias para la tecla C_24 (Hold -> Layer 2, Tap -> Toggle Layer 4)

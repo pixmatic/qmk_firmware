@@ -24,6 +24,8 @@ enum speed_key_ids {
     SK_ID_PGUP,
     SK_ID_PGDN,
     SK_ID_PAST,        // ID para CTRL+V
+    SK_ID_COUS,        // ID para COUNT_S
+    SK_ID_COUE,        // ID para COUNT_E
     SPEED_KEYS_COUNT   // Cantidad total de teclas rápidas
 };
 
@@ -47,6 +49,8 @@ enum speed_key_keycodes {
 #define SK_PGUP SPEED_KEY(SK_ID_PGUP)
 #define SK_PGDW SPEED_KEY(SK_ID_PGDN)
 #define SK_PAST SPEED_KEY(SK_ID_PAST)
+#define SK_COUS SPEED_KEY(SK_ID_COUS)
+#define SK_COUE SPEED_KEY(SK_ID_COUE)
 
 /**
  * Intercepta y procesa las teclas de disparo rápido.

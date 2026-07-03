@@ -50,6 +50,8 @@ enum custom_macro_keycodes {
 #undef X
 
     // (Otros tipos de listas de macros se expandirán aquí en el futuro)
+    COUNT_S,
+    COUNT_E,
 
     MACRO_SAFE_RANGE
 };
