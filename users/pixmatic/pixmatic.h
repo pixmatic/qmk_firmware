@@ -9,7 +9,8 @@
 // Se usan como índices dentro del array `tap_dance_actions` en mod_keys.c.
 enum {
     TD_C24_LAYER = 0, // Tap Dance para la tecla Caps Lock / C_24 (Alterna Capa 4, mantiene Capa 2)
-    TD_C13_LAYER      // Tap Dance para la tecla Fn / C_13 (Alterna Capa 3, mantiene Capa 1)
+    TD_C13_LAYER,     // Tap Dance para la tecla Fn1 / C_13 (Alterna Capa 3, mantiene Capa 1)
+    TD_C56_LAYER      // Tap Dance para la tecla Fn2 / C_56 (Alterna Capa 6, mantiene Capa 5)
 };
 
 // Redefinimos el comportamiento por defecto de _______ (transparencia) en los keymaps.
@@ -29,6 +30,9 @@ enum pixmatic_keycodes {
 
 // C_13: Hold activa momentáneamente la Capa 1. Tap alterna (toggle) de manera persistente la Capa 3.
 #define C_13 TD(TD_C13_LAYER)
+
+// C_56: Hold activa momentáneamente la Capa 5. Tap alterna (toggle) de manera persistente la Capa 6.
+#define C_56 TD(TD_C56_LAYER)
 
 // Declara la función para la gestión del comportamiento inteligente de Caps Lock (activación al presionar ambos Shift).
 bool process_shift_caps(uint16_t keycode, keyrecord_t *record);

@@ -16,5 +16,5 @@
 
 #pragma once
 
-/* Enable caps-lock LED */
-#define CAPS_LOCK_LED_INDEX 29
+/* Disable default single caps-lock LED in favor of user-space shift blinking indicator */
+// #define CAPS_LOCK_LED_INDEX 29

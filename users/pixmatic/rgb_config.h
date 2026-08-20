@@ -1,5 +1,9 @@
 #pragma once
 
+#if !defined(__ASSEMBLER__)
+#    include <stdint.h>
+#endif
+
 #ifdef RGB_MATRIX_ENABLE
 
 // ==============================================================================
@@ -20,6 +24,21 @@
 
 /* Tiempo de inactividad (Timeout): Apaga las luces RGB tras 2 minutos (120000 ms) sin pulsar teclas */
 #define RGB_MATRIX_TIMEOUT 120000
+
+#ifdef CAPS_LOCK_BLINK_ENABLE
+// ==============================================================================
+// INDICADOR DE BLOQUEO DE MAYÚSCULAS (PARPADEO DE TECLAS SHIFT)
+// ==============================================================================
+
+/* Velocidad de parpadeo de las teclas Shift cuando Bloq Mayús está activo (en ms) */
+#    ifndef CAPS_LOCK_BLINK_INTERVAL
+#        define CAPS_LOCK_BLINK_INTERVAL 500
+#    endif
+
+#    if !defined(__ASSEMBLER__)
+void process_caps_lock_blink(uint8_t val);
+#    endif
+#endif
 
 // ==============================================================================
 // ALIAS DE TECLAS RGB

@@ -128,3 +128,6 @@ compile_commands.json
 via*.json
 /keyboards/**/keymaps/via/*
 /keyboards/**/keymaps/vial/*
+
+# Personal files
+/users/pixmatic/macros_content.h

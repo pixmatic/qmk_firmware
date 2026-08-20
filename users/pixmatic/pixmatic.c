@@ -11,6 +11,20 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef CLEAN_BOOTLOADER_JUMP_ENABLE
+    if (keycode == QK_BOOT) {
+        if (record->event.pressed) {
+#    if defined(PROTOCOL_CHIBIOS)
+            // Desconectar limpiamente el bus USB y dar tiempo al host para desmontar la sesión HID
+            usbDisconnectBus(&USBD1);
+            wait_ms(250);
+#    endif
+            bootloader_jump();
+        }
+        return false;
+    }
+#endif
+
     if (!process_shift_caps(keycode, record)) {
         return false;
     }

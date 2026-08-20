@@ -71,8 +71,8 @@ RGBLIGHT_ENABLE = no                # Deshabilitar tiras de LED RGB (Underglow)
 RGB_MATRIX_ENABLE = yes             # Habilitar matrices de LED RGB direccionables por tecla
 LED_MATRIX_ENABLE = no              # Deshabilitar matrices de LED monocromáticas
 SLEEP_LED_ENABLE = no               # Deshabilitar LED de estado en modo suspensión
-ENCODER_ENABLE = no                 # Deshabilitar soporte para encoders rotativos
-ENCODER_MAP_ENABLE = no             # Deshabilitar mapas de encoders
+ENCODER_ENABLE ?= no                # Deshabilitar por defecto soporte para encoders rotativos
+ENCODER_MAP_ENABLE ?= no            # Deshabilitar por defecto mapas de encoders
 DIP_SWITCH_ENABLE = no              # Deshabilitar soporte para interruptores DIP
 DIP_SWITCH_MAP_ENABLE = no          # Deshabilitar mapas de interruptores DIP
 POINTING_DEVICE_ENABLE = no         # Deshabilitar soporte para trackballs/sensores ópticos
@@ -118,7 +118,7 @@ ADHLNS_ENABLE = no                  # Deshabilitar optimizaciones específicas A
 BOOTMAGIC_ENABLE = no               # Deshabilitamos soporte completo de Bootmagic
 DEFERRED_EXEC_ENABLE = yes           # Deshabilitar ejecución diferida de funciones (timers)
 CRC_ENABLE = no                     # Deshabilitar cálculo CRC de hardware/software no crítico
-EXTRAKEY_ENABLE = no                # Habilitar teclas multimedia, control de volumen y encendido
+EXTRAKEY_ENABLE ?= no                # Deshabilitar por defecto teclas multimedia, control de volumen y encendido
 MOUSEKEY_ENABLE = no                # Habilitar control de cursor de ratón mediante teclado
 NKRO_ENABLE = yes                   # Habilitar N-Key Rollover (pulsación simultánea ilimitada de teclas)
 WATCHDOG_ENABLE = no                # Deshabilitar temporizador Guardián (Watchdog) para reinicio del sistema
@@ -130,3 +130,16 @@ JOYSTICK_SHARED_EP = no             # No compartir endpoint USB para el Joystick
 DIGITIZER_SHARED_EP = no            # No compartir endpoint USB para el Digitalizador
 KEYBOARD_SHARED_EP = no             # No compartir endpoint USB del teclado
 MOUSE_SHARED_EP = no                # No compartir endpoint USB del ratón
+
+# ------------------------------------------------------------------------------
+# 8. Funcionalidades Personalizadas de Pixmatic
+# ------------------------------------------------------------------------------
+CAPS_LOCK_BLINK_ENABLE ?= no        # Habilitar parpadeo de teclas Shift con Bloq Mayús activo
+ifeq ($(strip $(CAPS_LOCK_BLINK_ENABLE)), yes)
+    OPT_DEFS += -DCAPS_LOCK_BLINK_ENABLE
+endif
+
+CLEAN_BOOTLOADER_JUMP_ENABLE ?= no  # Desconectar USB antes de saltar a bootloader (necesario en Q2)
+ifeq ($(strip $(CLEAN_BOOTLOADER_JUMP_ENABLE)), yes)
+    OPT_DEFS += -DCLEAN_BOOTLOADER_JUMP_ENABLE
+endif
