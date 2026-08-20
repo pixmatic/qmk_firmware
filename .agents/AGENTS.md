@@ -3,15 +3,21 @@
 ## Contexto del Proyecto
 - Este proyecto es un fork del firmware QMK para configurar dos teclados: **Keychron K8 Pro** y **Keychron Q2**.
 - Para el **Keychron K8 Pro**, no se utiliza el firmware del fork de Keychron, sino el firmware **vanilla** de QMK sin soporte para Bluetooth. Se ha creado el teclado de cero copiando los datos de hardware.
+- Para el **Keychron Q2**, el modelo utilizado es la variante **ISO Encoder** (`keychron/q2/iso_encoder`). Cualquier ajuste, keymap o configuración para el Q2 debe realizarse siempre sobre esta variante.
+- Para ambos teclados se utilizará **siempre** el keymap **`pixmatic`**.
 
 ## Organización del Código
 - **Espacio de usuario (`users/pixmatic/`)**: Toda la configuración de usuario debe ir en este directorio.
-- **Teclados (`keyboards/`)**: En este directorio únicamente se ubicarán los keymaps y la configuración específica de cada teclado.
+- **Teclados (`keyboards/`)**: En este directorio únicamente se ubicarán los keymaps (específicamente `pixmatic`) y la configuración específica de cada teclado.
 
 ## Compilación y Pruebas
-- Para pruebas de compilación, se debe utilizar el comando:
+- Para pruebas de compilación, se deben utilizar los comandos con el keymap `pixmatic`:
   ```bash
+  # Keychron K8 Pro
   qmk compile -kb keychron/k8_pro -km pixmatic
+
+  # Keychron Q2 (ISO Encoder)
+  qmk compile -kb keychron/q2/iso_encoder -km pixmatic
   ```
 
 ## Restricciones de Comandos Git
