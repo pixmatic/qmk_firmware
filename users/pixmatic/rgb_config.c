@@ -83,6 +83,19 @@ void process_gaming_mode_indicator(uint8_t val) {
     rgb_matrix_set_color(esc_led, (uint16_t)GAMING_MODE_ESC_COLOR_R * val / 255, (uint16_t)GAMING_MODE_ESC_COLOR_G * val / 255, (uint16_t)GAMING_MODE_ESC_COLOR_B * val / 255);
 }
 
+// Los indices de LED se cachean en la primera busqueda. Con dos juegos de capas
+// esa busqueda depende del modo activo, asi que al cambiar de modo hay que
+// descartarlos y dejar que se vuelvan a localizar.
+void pixmatic_rgb_invalidate_led_cache(void) {
+    esc_led       = NO_LED;
+    esc_led_found = false;
+#ifdef CAPS_LOCK_BLINK_ENABLE
+    lsft_led         = NO_LED;
+    rsft_led         = NO_LED;
+    shift_leds_found = false;
+#endif
+}
+
 #if RGB_MATRIX_TIMEOUT > 0
 // En modo gaming la iluminación nunca debe apagarse por inactividad.
 //

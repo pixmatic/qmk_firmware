@@ -68,6 +68,10 @@ void process_caps_lock_blink(uint8_t val);
 
 #if !defined(__ASSEMBLER__)
 void process_gaming_mode_indicator(uint8_t val);
+
+/* Descarta los indices de LED cacheados, para que se vuelvan a localizar contra
+   el juego de capas que este activo en ese momento. */
+void pixmatic_rgb_invalidate_led_cache(void);
 #endif
 
 // ==============================================================================

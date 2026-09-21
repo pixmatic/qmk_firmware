@@ -141,6 +141,12 @@ ifeq ($(strip $(CAPS_LOCK_BLINK_ENABLE)), yes)
     OPT_DEFS += -DCAPS_LOCK_BLINK_ENABLE
 endif
 
+DUAL_LAYER_SETS_ENABLE ?= no        # Dos juegos de capas independientes (default/gaming) seleccionados por el interruptor
+ifeq ($(strip $(DUAL_LAYER_SETS_ENABLE)), yes)
+    SRC += layer_sets.c
+    OPT_DEFS += -DDUAL_LAYER_SETS_ENABLE
+endif
+
 CLEAN_BOOTLOADER_JUMP_ENABLE ?= no  # Desconectar USB antes de saltar a bootloader (necesario en Q2)
 ifeq ($(strip $(CLEAN_BOOTLOADER_JUMP_ENABLE)), yes)
     OPT_DEFS += -DCLEAN_BOOTLOADER_JUMP_ENABLE
