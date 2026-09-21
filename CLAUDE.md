@@ -5,6 +5,7 @@
 - Para el **Keychron K8 Pro**, no se utiliza el firmware del fork de Keychron, sino el firmware **vanilla** de QMK sin soporte para Bluetooth. Se ha creado el teclado de cero copiando los datos de hardware.
 - Para el **Keychron Q2**, el modelo utilizado es la variante **ISO Encoder** (`keychron/q2/iso_encoder`). Cualquier ajuste, keymap o configuración para el Q2 debe realizarse siempre sobre esta variante.
 - Para ambos teclados se utilizará **siempre** el keymap **`pixmatic`**.
+- Por defecto se trabajará **siempre** con el **Keychron Q2 (ISO Encoder)**, el keymap **`pixmatic`** y el espacio de usuario **`users/pixmatic/`**, salvo que se indique expresamente lo contrario.
 
 ## Organización del Código
 - **Espacio de usuario (`users/pixmatic/`)**: Toda la configuración de usuario debe ir en este directorio.
@@ -21,7 +22,7 @@
   ```
 
 ## Restricciones de Comandos Git
-- Está **estrictamente prohibido** utilizar comandos git de escritura (por ejemplo, `git commit`, `git reset`, cambios de rama, etc.).
+- Está **estrictamente prohibido** utilizar comandos git de escritura (por ejemplo, `git commit`, `git reset`, cambios de rama, etc.), **excepto si el usuario lo solicita**.
 
 ## Principios de Diseño del Firmware
 - Mantener el firmware **minimalista y ligero**, utilizando el mínimo número de opciones necesarias.
