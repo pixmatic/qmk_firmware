@@ -1,5 +1,6 @@
 #include "quantum.h"
 #include "rgb_config.h"
+#include "gaming_mode.h"
 
 #ifdef RGB_MATRIX_ENABLE
 
@@ -54,6 +55,34 @@ void process_caps_lock_blink(uint8_t val) {
 }
 #endif
 
+static uint8_t esc_led       = NO_LED;
+static bool    esc_led_found = false;
+
+// Localiza automáticamente el índice del LED de la tecla Escape en la matriz
+static void find_esc_led(void) {
+    if (esc_led_found) return;
+    for (uint8_t r = 0; r < MATRIX_ROWS; r++) {
+        for (uint8_t c = 0; c < MATRIX_COLS; c++) {
+            if (keymap_key_to_keycode(0, (keypos_t){.row = r, .col = c}) == KC_ESC) {
+                esc_led = g_led_config.matrix_co[r][c];
+            }
+        }
+    }
+    esc_led_found = true;
+}
+
+// Tiñe la tecla Escape mientras el interruptor está en modo gaming, para poder
+// distinguir el modo activo de un vistazo sin mirar el interruptor.
+void process_gaming_mode_indicator(uint8_t val) {
+    if (!pixmatic_gaming_mode) return;
+
+    find_esc_led();
+    if (esc_led == NO_LED) return;
+
+    // Color del indicador (rojo por defecto), escalado al brillo actual
+    rgb_matrix_set_color(esc_led, (uint16_t)GAMING_MODE_ESC_COLOR_R * val / 255, (uint16_t)GAMING_MODE_ESC_COLOR_G * val / 255, (uint16_t)GAMING_MODE_ESC_COLOR_B * val / 255);
+}
+
 // Callback oficial de QMK para controlar indicadores RGB basados en el estado del teclado
 bool rgb_matrix_indicators_user(void) {
     uint8_t highest_layer = get_highest_layer(layer_state);
@@ -72,6 +101,10 @@ bool rgb_matrix_indicators_user(void) {
     // 2. Efecto de parpadeo de los Shift si Bloq Mayús está activo
     process_caps_lock_blink(val);
 #endif
+
+    // 3. Indicador del modo gaming en la tecla Escape.
+    //    Se pinta el último para que no lo tape el color de capa de arriba.
+    process_gaming_mode_indicator(val);
 
     return true; // Permitir que QMK procese otros indicadores si los hubiera
 }
