@@ -9,6 +9,11 @@
 // (por ejemplo, al cambiar de máquina mediante un switch KVM).
 static uint16_t active_mapped_keycodes[OS_KEY_MAPPINGS_COUNT] = {0};
 
+bool host_is_apple(void) {
+    os_variant_t host_os = detected_host_os();
+    return (host_os == OS_MACOS || host_os == OS_IOS);
+}
+
 bool process_os_engine(uint16_t keycode, keyrecord_t *record) {
     // Buscamos si el keycode interceptado pertenece a nuestras teclas de os_engine
     for (size_t i = 0; i < OS_KEY_MAPPINGS_COUNT; i++) {
@@ -18,11 +23,10 @@ bool process_os_engine(uint16_t keycode, keyrecord_t *record) {
                 // EVENTO: Tecla presionada (Keydown)
                 // ---------------------------------------------------------
                 // 1. Preguntamos al driver USB de QMK qué SO tiene el host
-                os_variant_t host_os = detected_host_os();
-                uint16_t     target_keycode;
+                uint16_t target_keycode;
 
                 // 2. Elegimos la equivalencia física según el SO
-                if (host_os == OS_MACOS || host_os == OS_IOS) {
+                if (host_is_apple()) {
                     target_keycode = os_key_mappings[i].mac_keycode;
                 } else {
                     // Windows, Linux o estado indeterminado (OS_UNSURE) usan el mapeo por defecto
@@ -48,8 +52,7 @@ bool process_os_engine(uint16_t keycode, keyrecord_t *record) {
                 } else {
                     // Mecanismo de seguridad (Fallback): Si por alguna razón perdimos el estado,
                     // recalculamos el valor dinámicamente en caliente para evitar que la tecla se quede "atascada".
-                    os_variant_t host_os = detected_host_os();
-                    if (host_os == OS_MACOS || host_os == OS_IOS) {
+                    if (host_is_apple()) {
                         target_keycode = os_key_mappings[i].mac_keycode;
                     } else {
                         target_keycode = os_key_mappings[i].win_linux_keycode;

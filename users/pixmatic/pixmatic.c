@@ -4,6 +4,7 @@
 #include "os_engine.h"
 #include "pixmatic.h"
 #include "virg.h"
+#include "gaming_mode.h"
 
 // Personalizar el Tapping Term por tecla
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
@@ -28,7 +29,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_shift_caps(keycode, record)) {
         return false;
     }
-    if (!process_dead_tilde(keycode, record)) {
+    // Los acentos muertos solo se emulan en modo default y sobre hosts que no los
+    // resuelven de forma nativa. Esa logica consume pulsaciones y emite secuencias
+    // (retroceso + acento), inadecuado cuando esas teclas son controles de juego.
+    if (!pixmatic_gaming_mode && !host_is_apple() && !process_dead_tilde(keycode, record)) {
         return false;
     }
     if (process_os_engine(keycode, record)) {

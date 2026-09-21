@@ -3,7 +3,8 @@
 #include "quantum.h"
 
 /**
- * Procesa la lógica de tecla muerta para la tilde (virgulilla '~') en Windows/Linux.
+ * Procesa la lógica de tecla muerta para los acentos.
+ * Quien llama decide cuándo aplicarla (ver process_record_user en pixmatic.c).
  * @param keycode El código de tecla pulsado.
  * @param record  El registro del evento de pulsación/liberación de QMK.
  * @return true si la tecla debe seguir procesándose normalmente,
