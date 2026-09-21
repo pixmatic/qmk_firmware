@@ -83,6 +83,23 @@ void process_gaming_mode_indicator(uint8_t val) {
     rgb_matrix_set_color(esc_led, (uint16_t)GAMING_MODE_ESC_COLOR_R * val / 255, (uint16_t)GAMING_MODE_ESC_COLOR_G * val / 255, (uint16_t)GAMING_MODE_ESC_COLOR_B * val / 255);
 }
 
+#if RGB_MATRIX_TIMEOUT > 0
+// En modo gaming la iluminación nunca debe apagarse por inactividad.
+//
+// RGB_MATRIX_TIMEOUT es una constante de compilación que QMK compara contra
+// last_input_activity_elapsed(), así que no se puede desactivar en caliente.
+// Lo que sí podemos es refrescar la marca de tiempo de actividad antes de que
+// llegue a expirar, de modo que el timeout nunca se cumpla mientras el
+// interruptor esté en modo gaming. En modo default no tocamos nada y la matriz
+// se apaga con normalidad a los RGB_MATRIX_TIMEOUT ms.
+void housekeeping_task_user(void) {
+    if (pixmatic_gaming_mode && last_input_activity_elapsed() > (RGB_MATRIX_TIMEOUT / 2)) {
+        uint32_t now = sync_timer_read32();
+        set_activity_timestamps(now, now, now);
+    }
+}
+#endif
+
 // Callback oficial de QMK para controlar indicadores RGB basados en el estado del teclado
 bool rgb_matrix_indicators_user(void) {
     uint8_t highest_layer = get_highest_layer(layer_state);
