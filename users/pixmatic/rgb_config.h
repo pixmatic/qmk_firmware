@@ -35,6 +35,17 @@
 #        define CAPS_LOCK_BLINK_INTERVAL 500
 #    endif
 
+/* Color del parpadeo de las teclas Shift con Bloq Mayús activo (azul) */
+#    ifndef CAPS_LOCK_BLINK_COLOR_R
+#        define CAPS_LOCK_BLINK_COLOR_R 0
+#    endif
+#    ifndef CAPS_LOCK_BLINK_COLOR_G
+#        define CAPS_LOCK_BLINK_COLOR_G 0
+#    endif
+#    ifndef CAPS_LOCK_BLINK_COLOR_B
+#        define CAPS_LOCK_BLINK_COLOR_B 255
+#    endif
+
 #    if !defined(__ASSEMBLER__)
 void process_caps_lock_blink(uint8_t val);
 #    endif

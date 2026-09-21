@@ -31,11 +31,16 @@ void process_caps_lock_blink(uint8_t val) {
         bool is_blink_on = ((timer_read32() / CAPS_LOCK_BLINK_INTERVAL) % 2) == 0;
 
         if (is_blink_on) {
+            // Color del parpadeo (azul por defecto), escalado al brillo actual
+            uint8_t r = (uint16_t)CAPS_LOCK_BLINK_COLOR_R * val / 255;
+            uint8_t g = (uint16_t)CAPS_LOCK_BLINK_COLOR_G * val / 255;
+            uint8_t b = (uint16_t)CAPS_LOCK_BLINK_COLOR_B * val / 255;
+
             if (lsft_led != NO_LED) {
-                rgb_matrix_set_color(lsft_led, val, val, val);
+                rgb_matrix_set_color(lsft_led, r, g, b);
             }
             if (rsft_led != NO_LED) {
-                rgb_matrix_set_color(rsft_led, val, val, val);
+                rgb_matrix_set_color(rsft_led, r, g, b);
             }
         } else {
             if (lsft_led != NO_LED) {

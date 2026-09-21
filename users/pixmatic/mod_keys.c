@@ -241,61 +241,51 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_C56_LAYER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_c56_finished, dance_c56_reset)
 };
 
-// Estado físico y lógico de los Shift para control de Caps Lock por doble Shift pulsado
-static bool lsft_pressed = false;
-static bool rsft_pressed = false;
-static bool lsft_registered = false;
-static bool rsft_registered = false;
+// Estado para el Bloq Mayús por doble pulsación de un mismo Shift.
+// `last_shift_key`: último Shift pulsado que sigue siendo candidato a doble pulsación (KC_NO si no hay ninguno).
+// `last_shift_time`: instante de esa primera pulsación, para medir el intervalo.
+// `caps_tap_consumed`: marca que la pulsación actual se convirtió en Bloq Mayús y su release debe descartarse.
+static uint16_t last_shift_key    = KC_NO;
+static uint16_t last_shift_time   = 0;
+static bool     caps_tap_consumed = false;
 
+/**
+ * @brief Bloq Mayús mediante doble pulsación rápida de la misma tecla Shift.
+ *
+ * - La primera pulsación se envía al SO tal cual (Shift normal).
+ * - Si el mismo Shift se vuelve a pulsar antes de SHIFT_CAPS_TAP_TERM ms, esa segunda
+ *   pulsación no se envía como Shift: solo emite KC_CAPS (activa o desactiva Bloq Mayús).
+ * - Cualquier otra tecla pulsada entre medias anula el candidato, de modo que escribir
+ *   mayúsculas de forma normal nunca dispara el Bloq Mayús.
+ */
 bool process_shift_caps(uint16_t keycode, keyrecord_t *record) {
-    if (keycode == KC_LSFT) {
+    if (keycode != KC_LSFT && keycode != KC_RSFT) {
+        // Cualquier otra pulsación invalida la secuencia de doble Shift en curso.
         if (record->event.pressed) {
-            lsft_pressed = true;
-            if (rsft_pressed) {
-                if (rsft_registered) {
-                    unregister_code(KC_RSFT);
-                    rsft_registered = false;
-                }
-                tap_code(KC_CAPS);
-                lsft_registered = false;
-                return false;
-            } else {
-                lsft_registered = true;
-                return true;
-            }
-        } else {
-            lsft_pressed = false;
-            if (lsft_registered) {
-                lsft_registered = false;
-                return true;
-            } else {
-                return false;
-            }
+            last_shift_key = KC_NO;
         }
-    } else if (keycode == KC_RSFT) {
-        if (record->event.pressed) {
-            rsft_pressed = true;
-            if (lsft_pressed) {
-                if (lsft_registered) {
-                    unregister_code(KC_LSFT);
-                    lsft_registered = false;
-                }
-                tap_code(KC_CAPS);
-                rsft_registered = false;
-                return false;
-            } else {
-                rsft_registered = true;
-                return true;
-            }
-        } else {
-            rsft_pressed = false;
-            if (rsft_registered) {
-                rsft_registered = false;
-                return true;
-            } else {
-                return false;
-            }
+        return true;
+    }
+
+    if (record->event.pressed) {
+        if (keycode == last_shift_key && timer_elapsed(last_shift_time) < SHIFT_CAPS_TAP_TERM) {
+            // Segunda pulsación dentro del intervalo: solo Bloq Mayús, sin Shift.
+            last_shift_key    = KC_NO;
+            caps_tap_consumed = true;
+            tap_code(KC_CAPS);
+            return false;
         }
+
+        // Primera pulsación: se envía normalmente y queda como candidato.
+        last_shift_key  = keycode;
+        last_shift_time = record->event.time;
+        return true;
+    }
+
+    // Release: se descarta si la pulsación se consumió como Bloq Mayús.
+    if (caps_tap_consumed) {
+        caps_tap_consumed = false;
+        return false;
     }
 
     return true;

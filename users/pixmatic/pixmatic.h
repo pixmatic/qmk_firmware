@@ -34,7 +34,13 @@ enum pixmatic_keycodes {
 // C_56: Hold activa momentáneamente la Capa 5. Tap alterna (toggle) de manera persistente la Capa 6.
 #define C_56 TD(TD_C56_LAYER)
 
-// Declara la función para la gestión del comportamiento inteligente de Caps Lock (activación al presionar ambos Shift).
+// Intervalo máximo (ms) entre las dos pulsaciones del mismo Shift para alternar Bloq Mayús.
+#ifndef SHIFT_CAPS_TAP_TERM
+#    define SHIFT_CAPS_TAP_TERM 500
+#endif
+
+// Declara la función para la gestión del comportamiento inteligente de Caps Lock
+// (alternar Bloq Mayús al pulsar dos veces seguidas la misma tecla Shift).
 bool process_shift_caps(uint16_t keycode, keyrecord_t *record);
 
 // Inclusión del módulo de control de modificadores (mod_keys.c).
