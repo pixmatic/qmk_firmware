@@ -20,7 +20,8 @@
 
 bool dip_switch_update_kb(uint8_t index, bool active) {
     if (!dip_switch_update_user(index, active)) { return false;}
-    // Switch reservado para uso futuro
+    // El selector de modo (default/gaming) se gestiona en el espacio de usuario,
+    // dentro de dip_switch_update_user() (users/pixmatic/gaming_mode.c).
     return true;
 }
 

@@ -1,5 +1,4 @@
 #include "virg.h"
-#include "os_detection.h"
 
 // Enumeración para representar los distintos acentos muertos
 typedef enum {
@@ -144,47 +143,41 @@ bool process_dead_tilde(uint16_t keycode, keyrecord_t *record) {
     }
 
     // Detección inicial de la pulsación de la tilde
-    if (is_tilde || is_acute || is_diaeresis || is_grave || is_circumflex) {
-        if (record->event.pressed) {
-            os_variant_t host_os = detected_host_os();
-            // Aplicar únicamente si NO estamos en macOS o iOS
-            if (host_os != OS_MACOS && host_os != OS_IOS) {
-                uint8_t real_mods = get_mods();
-                clear_mods();
+    if ((is_tilde || is_acute || is_diaeresis || is_grave || is_circumflex) && record->event.pressed) {
+        uint8_t real_mods = get_mods();
+        clear_mods();
 
-                dead_accent_t accent = DEAD_NONE;
-                if (is_tilde) {
-                    register_code16(RALT(KC_4));
-                    unregister_code16(RALT(KC_4));
-                    accent = DEAD_TILDE;
-                } else if (is_acute) {
-                    register_code(KC_QUOT);
-                    unregister_code(KC_QUOT);
-                    accent = DEAD_ACUTE;
-                } else if (is_diaeresis) {
-                    register_code16(LSFT(KC_QUOT));
-                    unregister_code16(LSFT(KC_QUOT));
-                    accent = DEAD_DIAERESIS;
-                } else if (is_grave) {
-                    register_code(KC_LBRC);
-                    unregister_code(KC_LBRC);
-                    accent = DEAD_GRAVE;
-                } else if (is_circumflex) {
-                    register_code16(LSFT(KC_LBRC));
-                    unregister_code16(LSFT(KC_LBRC));
-                    accent = DEAD_CIRCUMFLEX;
-                }
-
-                register_code(KC_SPC);
-                unregister_code(KC_SPC);
-
-                set_mods(real_mods);
-
-                active_dead_accent = accent;
-                dead_accent_timer = timer_read();
-                return false; // Interceptado y gestionado por nosotros
-            }
+        dead_accent_t accent = DEAD_NONE;
+        if (is_tilde) {
+            register_code16(RALT(KC_4));
+            unregister_code16(RALT(KC_4));
+            accent = DEAD_TILDE;
+        } else if (is_acute) {
+            register_code(KC_QUOT);
+            unregister_code(KC_QUOT);
+            accent = DEAD_ACUTE;
+        } else if (is_diaeresis) {
+            register_code16(LSFT(KC_QUOT));
+            unregister_code16(LSFT(KC_QUOT));
+            accent = DEAD_DIAERESIS;
+        } else if (is_grave) {
+            register_code(KC_LBRC);
+            unregister_code(KC_LBRC);
+            accent = DEAD_GRAVE;
+        } else if (is_circumflex) {
+            register_code16(LSFT(KC_LBRC));
+            unregister_code16(LSFT(KC_LBRC));
+            accent = DEAD_CIRCUMFLEX;
         }
+
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+
+        set_mods(real_mods);
+
+        active_dead_accent = accent;
+        dead_accent_timer  = timer_read();
+        return false; // Interceptado y gestionado por nosotros
     }
 
     return true; // Continuar flujo normal

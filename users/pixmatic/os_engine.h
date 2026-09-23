@@ -57,6 +57,14 @@ static const os_key_mapping_t os_key_mappings[] __attribute__((unused)) = {
 #define OS_KEY_MAPPINGS_COUNT (sizeof(os_key_mappings) / sizeof(os_key_mapping_t))
 
 /**
+ * Indica si el host detectado resuelve de forma nativa lo que en Windows y Linux
+ * hay que emular (equivalencias de modificadores, acentos muertos...).
+ * Un estado indeterminado (OS_UNSURE) cuenta como no-Apple, igual que el mapeo
+ * por defecto de las teclas virtuales.
+ */
+bool host_is_apple(void);
+
+/**
  * Intercepta y procesa las teclas virtuales de os_engine.
  * @param keycode El código de tecla pulsado.
  * @param record  El registro del evento de pulsación/liberación de QMK.

@@ -52,6 +52,29 @@ void process_caps_lock_blink(uint8_t val);
 #endif
 
 // ==============================================================================
+// INDICADOR DE MODO GAMING (TECLA ESCAPE)
+// ==============================================================================
+
+/* Color de la tecla Escape mientras el interruptor está en modo gaming (rojo) */
+#ifndef GAMING_MODE_ESC_COLOR_R
+#    define GAMING_MODE_ESC_COLOR_R 255
+#endif
+#ifndef GAMING_MODE_ESC_COLOR_G
+#    define GAMING_MODE_ESC_COLOR_G 0
+#endif
+#ifndef GAMING_MODE_ESC_COLOR_B
+#    define GAMING_MODE_ESC_COLOR_B 0
+#endif
+
+#if !defined(__ASSEMBLER__)
+void process_gaming_mode_indicator(uint8_t val);
+
+/* Descarta los indices de LED cacheados, para que se vuelvan a localizar contra
+   el juego de capas que este activo en ese momento. */
+void pixmatic_rgb_invalidate_led_cache(void);
+#endif
+
+// ==============================================================================
 // ALIAS DE TECLAS RGB
 // ==============================================================================
 

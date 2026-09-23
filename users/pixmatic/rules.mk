@@ -7,6 +7,7 @@
 
 # Incluir archivos de código fuente del espacio de usuario
 SRC += pixmatic.c os_engine.c macros.c virg.c rgb_config.c speed_key.c contador.c
+SRC += gaming_mode.c debounce_switch.c debounce_default.c debounce_gaming.c
 
 # ------------------------------------------------------------------------------
 # 1. Optimización y Depuración
@@ -73,7 +74,7 @@ LED_MATRIX_ENABLE = no              # Deshabilitar matrices de LED monocromátic
 SLEEP_LED_ENABLE = no               # Deshabilitar LED de estado en modo suspensión
 ENCODER_ENABLE ?= no                # Deshabilitar por defecto soporte para encoders rotativos
 ENCODER_MAP_ENABLE ?= no            # Deshabilitar por defecto mapas de encoders
-DIP_SWITCH_ENABLE = no              # Deshabilitar soporte para interruptores DIP
+DIP_SWITCH_ENABLE = yes             # Habilitar el interruptor deslizante (selector modo default/gaming)
 DIP_SWITCH_MAP_ENABLE = no          # Deshabilitar mapas de interruptores DIP
 POINTING_DEVICE_ENABLE = no         # Deshabilitar soporte para trackballs/sensores ópticos
 PS2_ENABLE = no                     # Deshabilitar periféricos PS/2 genéricos
@@ -114,6 +115,7 @@ SPLIT_KEYBOARD = no                 # Deshabilitar soporte para teclados dividid
 # ------------------------------------------------------------------------------
 # 7. Otros Ajustes y Protocolos
 # ------------------------------------------------------------------------------
+DEBOUNCE_TYPE = custom              # Debounce propio: elige algoritmo según el modo (ver debounce_switch.c)
 ADHLNS_ENABLE = no                  # Deshabilitar optimizaciones específicas ADHLNS
 BOOTMAGIC_ENABLE = no               # Deshabilitamos soporte completo de Bootmagic
 DEFERRED_EXEC_ENABLE = yes           # Deshabilitar ejecución diferida de funciones (timers)
@@ -137,6 +139,12 @@ MOUSE_SHARED_EP = no                # No compartir endpoint USB del ratón
 CAPS_LOCK_BLINK_ENABLE ?= no        # Habilitar parpadeo de teclas Shift con Bloq Mayús activo
 ifeq ($(strip $(CAPS_LOCK_BLINK_ENABLE)), yes)
     OPT_DEFS += -DCAPS_LOCK_BLINK_ENABLE
+endif
+
+DUAL_LAYER_SETS_ENABLE ?= no        # Dos juegos de capas independientes (default/gaming) seleccionados por el interruptor
+ifeq ($(strip $(DUAL_LAYER_SETS_ENABLE)), yes)
+    SRC += layer_sets.c
+    OPT_DEFS += -DDUAL_LAYER_SETS_ENABLE
 endif
 
 CLEAN_BOOTLOADER_JUMP_ENABLE ?= no  # Desconectar USB antes de saltar a bootloader (necesario en Q2)
