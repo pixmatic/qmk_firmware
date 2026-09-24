@@ -19,10 +19,10 @@ const uint16_t PROGMEM keymaps_gaming[][MATRIX_ROWS][MATRIX_COLS] = {
     // Capa 0 (gaming): Base
     [0] = LAYOUT_iso_68(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,  KC_EQL,   KC_BSPC,          KC_MUTE,
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,  KC_RBRC,                    KC_DEL,
-        C_24,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,  KC_NUHS,  KC_ENT,           KC_HOME,
+        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,  KC_RBRC,                    KC_PSCR,
+        C_24,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,  KC_NUHS,  KC_ENT,           KC_DEL,
         KC_LSFT, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,            KC_RSFT, KC_UP,
-        OS_L1,   OS_L2,   OS_L3,                            KC_SPC,                               OS_R1,   C_13,     C_56,     KC_LEFT, KC_DOWN, KC_RGHT
+        OS_L1,   _______, OS_L3,                            KC_SPC,                               OS_R1,   C_13,     C_56,     KC_LEFT, KC_DOWN, KC_RGHT
     ),
 
     // Capa 1 (gaming): Fn1 Hold - vacia salvo el paso a la capa 7
@@ -52,13 +52,13 @@ const uint16_t PROGMEM keymaps_gaming[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______,                            _______,                            _______, C_13,     C_56,     _______, _______, _______
     ),
 
-    // Capa 4 (gaming): Caps Lock Toggle - vacia salvo los cambios de capa
+    // Capa 4 (gaming): Caps Lock Toggle - las filas de letras emiten Ctrl+Shift+tecla
     [4] = LAYOUT_iso_68(
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,          _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,                    _______,
-        C_24,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,          _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,            _______, _______,
-        _______, _______, _______,                            _______,                            _______, C_13,     C_56,     _______, _______, _______
+        KC_ESC,  KC_1,         KC_2,      KC_3,      KC_4,      KC_5,      KC_6,      KC_7,      KC_8,      KC_9,         KC_0,         KC_MINS,      KC_EQL,        KC_BSPC,           KC_MUTE,
+        KC_TAB,  LCS(KC_Q),    LCS(KC_W), LCS(KC_E), LCS(KC_R), LCS(KC_T), LCS(KC_Y), LCS(KC_U), LCS(KC_I), LCS(KC_O),    LCS(KC_P),    LCS(KC_LBRC), LCS(KC_RBRC),                     KC_PSCR,
+        C_24,    LCS(KC_A),    LCS(KC_S), LCS(KC_D), LCS(KC_F), LCS(KC_G), LCS(KC_H), LCS(KC_J), LCS(KC_K), LCS(KC_L),    LCS(KC_SCLN), LCS(KC_QUOT), LCS(KC_NUHS),  KC_ENT,            KC_DEL,
+        KC_LSFT, LCS(KC_NUBS), LCS(KC_Z), LCS(KC_X), LCS(KC_C), LCS(KC_V), LCS(KC_B), LCS(KC_N), LCS(KC_M), LCS(KC_COMM), LCS(KC_DOT),  LCS(KC_SLSH),                KC_RSFT,  KC_UP,
+        OS_L1,   _______, OS_L3,                            KC_SPC,                                                       OS_R1,        C_13,         C_56,          KC_LEFT,  KC_DOWN, KC_RGHT
     ),
 
     // Capa 5 (gaming): Fn2 Hold - vacia salvo el paso a la capa 8
@@ -104,7 +104,7 @@ const uint16_t PROGMEM encoder_map_gaming[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [1] = { ENCODER_CCW_CW(_______, _______) },
     [2] = { ENCODER_CCW_CW(_______, _______) },
     [3] = { ENCODER_CCW_CW(_______, _______) },
-    [4] = { ENCODER_CCW_CW(_______, _______) },
+    [4] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
     [5] = { ENCODER_CCW_CW(_______, _______) },
     [6] = { ENCODER_CCW_CW(_______, _______) },
     [7] = { ENCODER_CCW_CW(_______, _______) },
