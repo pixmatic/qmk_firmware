@@ -1,5 +1,32 @@
 #include "quantum.h"
 #include "pixmatic.h"
+#include "gaming_mode.h"
+
+// Capa toggle (3, 4 o 6) activada por un Tap en modo gaming que debe apagarse sola
+// tras la siguiente pulsación. 0 indica que no hay ninguna pendiente.
+static uint8_t oneshot_layer = 0;
+
+/**
+ * @brief Registra la capa recién encendida por un Tap como capa de un solo uso.
+ *
+ * Solo en modo gaming; en modo default el Tap sigue siendo un toggle persistente.
+ */
+static void oneshot_layer_arm(uint8_t layer) {
+    oneshot_layer = pixmatic_gaming_mode ? layer : 0;
+}
+
+/**
+ * @brief Anula la capa de un solo uso pendiente, apagándola.
+ *
+ * La usan los Hold para que la capa no se guarde como activa y se restaure
+ * después como si fuera un toggle persistente.
+ */
+static void oneshot_layer_cancel(void) {
+    if (oneshot_layer) {
+        layer_off(oneshot_layer);
+        oneshot_layer = 0;
+    }
+}
 
 // Variables de estado para el Tap Dance C_24 (Caps Lock personalizado)
 // `c24_layer_is_held`: Rastrea si la tecla de Hold está físicamente presionada y activa en la Capa 2.
@@ -38,6 +65,7 @@ static bool c56_layer_6_was_active = false;
 void dance_c24_finished(tap_dance_state_t *state, void *user_data) {
     if (state->pressed) {
         // --- Operación de Hold (Ir a Capa 2) ---
+        oneshot_layer_cancel();
         c24_layer_3_was_active = layer_state_is(3);
         c24_layer_4_was_active = layer_state_is(4);
         c24_layer_5_was_active = layer_state_is(5);
@@ -62,10 +90,12 @@ void dance_c24_finished(tap_dance_state_t *state, void *user_data) {
         // --- Operación de Tap (Alternar Capa 4) ---
         if (layer_state_is(4)) {
             layer_off(4);
+            oneshot_layer = 0;
         } else {
             layer_off(3);
             layer_off(6);
             layer_on(4);
+            oneshot_layer_arm(4);
         }
     }
 }
@@ -113,6 +143,7 @@ void dance_c24_reset(tap_dance_state_t *state, void *user_data) {
 void dance_c13_finished(tap_dance_state_t *state, void *user_data) {
     if (state->pressed) {
         // --- Operación de Hold (Ir a Capa 1) ---
+        oneshot_layer_cancel();
         c13_layer_2_was_active = layer_state_is(2);
         c13_layer_3_was_active = layer_state_is(3);
         c13_layer_4_was_active = layer_state_is(4);
@@ -141,10 +172,12 @@ void dance_c13_finished(tap_dance_state_t *state, void *user_data) {
         // --- Operación de Tap (Alternar Capa 3) ---
         if (layer_state_is(3)) {
             layer_off(3);
+            oneshot_layer = 0;
         } else {
             layer_off(4);
             layer_off(6);
             layer_on(3);
+            oneshot_layer_arm(3);
         }
     }
 }
@@ -194,6 +227,7 @@ void dance_c13_reset(tap_dance_state_t *state, void *user_data) {
 void dance_c56_finished(tap_dance_state_t *state, void *user_data) {
     if (state->pressed) {
         // --- Operación de Hold (Ir a Capa 5) ---
+        oneshot_layer_cancel();
         c56_layer_6_was_active = layer_state_is(6);
         
         if (c56_layer_6_was_active) {
@@ -206,10 +240,12 @@ void dance_c56_finished(tap_dance_state_t *state, void *user_data) {
         // --- Operación de Tap (Alternar Capa 6) ---
         if (layer_state_is(6)) {
             layer_off(6);
+            oneshot_layer = 0;
         } else {
             layer_off(3);
             layer_off(4);
             layer_on(6);
+            oneshot_layer_arm(6);
         }
     }
 }
@@ -230,6 +266,20 @@ void dance_c56_reset(tap_dance_state_t *state, void *user_data) {
             c56_layer_6_was_active = false;
         }
         c56_layer_is_held = false;
+    }
+}
+
+/**
+ * @brief Apaga la capa de un solo uso tras la primera pulsación que se resuelve en ella.
+ *
+ * Se ejecuta después de procesar la pulsación, así que esa tecla ya se ha enviado
+ * desde la capa toggle; su release se resuelve contra la misma capa gracias a la
+ * caché de capas de QMK. Las teclas Tap Dance no la consumen, para poder cancelarla
+ * o cambiar a otra capa toggle.
+ */
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (oneshot_layer && pixmatic_gaming_mode && record->event.pressed && !IS_QK_TAP_DANCE(keycode)) {
+        oneshot_layer_cancel();
     }
 }
 

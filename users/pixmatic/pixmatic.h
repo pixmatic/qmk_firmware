@@ -25,13 +25,16 @@ enum pixmatic_keycodes {
 };
 
 // Alias de conveniencia para invocar las acciones Tap Dance desde la matriz de keymaps.
-// C_24: Hold activa momentáneamente la Capa 2. Tap alterna (toggle) de manera persistente la Capa 4.
+// C_24: Hold activa momentáneamente la Capa 2. Tap alterna (toggle) de manera persistente la Capa 4
+//       (en modo gaming, solo para la siguiente pulsación).
 #define C_24 TD(TD_C24_LAYER)
 
-// C_13: Hold activa momentáneamente la Capa 1. Tap alterna (toggle) de manera persistente la Capa 3.
+// C_13: Hold activa momentáneamente la Capa 1. Tap alterna (toggle) de manera persistente la Capa 3
+//       (en modo gaming, solo para la siguiente pulsación).
 #define C_13 TD(TD_C13_LAYER)
 
-// C_56: Hold activa momentáneamente la Capa 5. Tap alterna (toggle) de manera persistente la Capa 6.
+// C_56: Hold activa momentáneamente la Capa 5. Tap alterna (toggle) de manera persistente la Capa 6
+//       (en modo gaming, solo para la siguiente pulsación).
 #define C_56 TD(TD_C56_LAYER)
 
 // Intervalo máximo (ms) entre las dos pulsaciones del mismo Shift para alternar Bloq Mayús.
