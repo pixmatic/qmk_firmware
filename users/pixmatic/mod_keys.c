@@ -253,8 +253,11 @@ static bool     caps_tap_consumed = false;
  * @brief Bloq Mayús mediante doble pulsación rápida de la misma tecla Shift.
  *
  * - La primera pulsación se envía al SO tal cual (Shift normal).
- * - Si el mismo Shift se vuelve a pulsar antes de SHIFT_CAPS_TAP_TERM ms, esa segunda
- *   pulsación no se envía como Shift: solo emite KC_CAPS (activa o desactiva Bloq Mayús).
+ * - Si el mismo Shift se vuelve a pulsar entre SHIFT_CAPS_MIN_TERM y SHIFT_CAPS_TAP_TERM ms
+ *   después, esa segunda pulsación no se envía como Shift: solo emite KC_CAPS (activa o
+ *   desactiva Bloq Mayús).
+ * - Una segunda pulsación por debajo de SHIFT_CAPS_MIN_TERM se considera accidental y se
+ *   envía como un Shift normal.
  * - Cualquier otra tecla pulsada entre medias anula el candidato, de modo que escribir
  *   mayúsculas de forma normal nunca dispara el Bloq Mayús.
  */
@@ -268,7 +271,8 @@ bool process_shift_caps(uint16_t keycode, keyrecord_t *record) {
     }
 
     if (record->event.pressed) {
-        if (keycode == last_shift_key && timer_elapsed(last_shift_time) < SHIFT_CAPS_TAP_TERM) {
+        uint16_t elapsed = TIMER_DIFF_16(record->event.time, last_shift_time);
+        if (keycode == last_shift_key && elapsed >= SHIFT_CAPS_MIN_TERM && elapsed < SHIFT_CAPS_TAP_TERM) {
             // Segunda pulsación dentro del intervalo: solo Bloq Mayús, sin Shift.
             last_shift_key    = KC_NO;
             caps_tap_consumed = true;
@@ -276,7 +280,7 @@ bool process_shift_caps(uint16_t keycode, keyrecord_t *record) {
             return false;
         }
 
-        // Primera pulsación: se envía normalmente y queda como candidato.
+        // Primera pulsación (o segunda demasiado rápida): se envía normalmente y queda como candidato.
         last_shift_key  = keycode;
         last_shift_time = record->event.time;
         return true;

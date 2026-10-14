@@ -39,6 +39,13 @@ enum pixmatic_keycodes {
 #    define SHIFT_CAPS_TAP_TERM 500
 #endif
 
+// Intervalo mínimo (ms) entre las dos pulsaciones del mismo Shift para alternar Bloq Mayús.
+// Una segunda pulsación más rápida se considera accidental (rebote o pulsación involuntaria)
+// y se trata como un Shift normal.
+#ifndef SHIFT_CAPS_MIN_TERM
+#    define SHIFT_CAPS_MIN_TERM 80
+#endif
+
 // Declara la función para la gestión del comportamiento inteligente de Caps Lock
 // (alternar Bloq Mayús al pulsar dos veces seguidas la misma tecla Shift).
 bool process_shift_caps(uint16_t keycode, keyrecord_t *record);
