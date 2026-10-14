@@ -36,11 +36,11 @@ const uint16_t PROGMEM keymaps_gaming[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // Capa 2 (gaming): Caps Lock Hold - vacia
     [2] = LAYOUT_iso_68(
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,          _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,                    _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,          _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,            _______, _______,
-        _______, _______, _______,                            _______,                            _______, _______,  _______,  _______, _______, _______
+        KC_ESC,  LCS(KC_1),    LCS(KC_2), LCS(KC_3), LCS(KC_4), LCS(KC_5), LCS(KC_6), LCS(KC_7), LCS(KC_8), LCS(KC_9),    LCS(KC_0),    LCS(KC_MINS), LCS(KC_EQL),  LCS(KC_BSPC), LCS(KC_MUTE),
+        KC_TAB,  LCS(KC_Q),    LCS(KC_W), LCS(KC_E), LCS(KC_R), LCS(KC_T), LCS(KC_Y), LCS(KC_U), LCS(KC_I), LCS(KC_O),    LCS(KC_P),    LCS(KC_LBRC), LCS(KC_RBRC),               KC_PSCR,
+        _______, LCS(KC_A),    LCS(KC_S), LCS(KC_D), LCS(KC_F), LCS(KC_G), LCS(KC_H), LCS(KC_J), LCS(KC_K), LCS(KC_L),    LCS(KC_SCLN), LCS(KC_QUOT), LCS(KC_NUHS), KC_ENT,       KC_DEL,
+        KC_LSFT, LCS(KC_NUBS), LCS(KC_Z), LCS(KC_X), LCS(KC_C), LCS(KC_V), LCS(KC_B), LCS(KC_N), LCS(KC_M), LCS(KC_COMM), LCS(KC_DOT),  LCS(KC_SLSH),               KC_RSFT,       KC_UP,
+        OS_L1,   _______, OS_L3,                            KC_SPC,                                                       OS_R1,        _______,      _______,      KC_LEFT,  KC_DOWN, KC_RGHT
     ),
 
     // Capa 3 (gaming): Fn1 Toggle - vacia salvo los cambios de capa
@@ -54,11 +54,11 @@ const uint16_t PROGMEM keymaps_gaming[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // Capa 4 (gaming): Caps Lock Toggle - las filas de letras emiten Ctrl+Shift+tecla
     [4] = LAYOUT_iso_68(
-        KC_ESC,  KC_1,         KC_2,      KC_3,      KC_4,      KC_5,      KC_6,      KC_7,      KC_8,      KC_9,         KC_0,         KC_MINS,      KC_EQL,        KC_BSPC,           KC_MUTE,
-        KC_TAB,  LCS(KC_Q),    LCS(KC_W), LCS(KC_E), LCS(KC_R), LCS(KC_T), LCS(KC_Y), LCS(KC_U), LCS(KC_I), LCS(KC_O),    LCS(KC_P),    LCS(KC_LBRC), LCS(KC_RBRC),                     KC_PSCR,
-        C_24,    LCS(KC_A),    LCS(KC_S), LCS(KC_D), LCS(KC_F), LCS(KC_G), LCS(KC_H), LCS(KC_J), LCS(KC_K), LCS(KC_L),    LCS(KC_SCLN), LCS(KC_QUOT), LCS(KC_NUHS),  KC_ENT,            KC_DEL,
-        KC_LSFT, LCS(KC_NUBS), LCS(KC_Z), LCS(KC_X), LCS(KC_C), LCS(KC_V), LCS(KC_B), LCS(KC_N), LCS(KC_M), LCS(KC_COMM), LCS(KC_DOT),  LCS(KC_SLSH),                KC_RSFT,  KC_UP,
-        OS_L1,   _______, OS_L3,                            KC_SPC,                                                       OS_R1,        C_13,         C_56,          KC_LEFT,  KC_DOWN, KC_RGHT
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,          _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,                    _______,
+        C_24,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,          _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,            _______, _______,
+        _______, _______, _______,                            _______,                            _______, C_13,     C_56,     _______, _______, _______
     ),
 
     // Capa 5 (gaming): Fn2 Hold - vacia salvo el paso a la capa 8
